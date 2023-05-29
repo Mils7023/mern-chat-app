@@ -3,7 +3,8 @@ const dotenv = require('dotenv')
 const { chats } = require("./data/data");
 const ConnectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
-const e = require("express");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+
 
 dotenv.config();
 ConnectDB();
@@ -25,7 +26,10 @@ app.get("/", (req, res) => {
 //   res.send(getSingleChat);
 // });
 
-app.use('api/user', userRoutes)
+app.use('/api/user', userRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000 ;
 
