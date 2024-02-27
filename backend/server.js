@@ -1,13 +1,14 @@
 const express = require("express");
-const dotenv = require('dotenv')
+const dotenv = require("dotenv");
 const { chats } = require("./data/data");
 const ConnectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-
 
 dotenv.config();
 ConnectDB();
+
 const app = express();
 
 app.use(express.json());
@@ -26,11 +27,12 @@ app.get("/", (req, res) => {
 //   res.send(getSingleChat);
 // });
 
-app.use('/api/user', userRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000 ;
+const PORT = process.env.PORT || 8080;
 
-app.listen(5000, console.log(`Server Started on Port ${PORT}`));
+app.listen(PORT, console.log(`Server Started on Port ${PORT}`));
