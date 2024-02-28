@@ -1,26 +1,27 @@
-import React from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
-import {
-  Box,
-  Container,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import SideDrawer from "../Components/misc/SideDrawer";
+import ChatBox from "../Components/ChatBox";
+import MyChat from "../Components/MyChat";
 
 const ChatPage = () => {
   const { user } = ChatState();
+  const [fetchAgain, setFetchAgain] = useState(false);
   return (
     <div style={{ width: "100%" }}>
       {user && <SideDrawer />}
-      <Box>
-        {/* {user && <MyChats />} */}
-        {/* {user && <ChatBox />} */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        w="100%"
+        h="91.5vh"
+        p="10px"
+      >
+        {user && <MyChat fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
       </Box>
     </div>
   );
