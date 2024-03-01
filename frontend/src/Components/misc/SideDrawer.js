@@ -91,12 +91,21 @@ const SideDrawer = () => {
         },
       };
 
-      const { data } = await axios.post("/api/chat", { userId }, config);
+      // Check if there's already a chat between the current user and the selected user
+      const existingChat = chats.find((chat) => {
+        return chat.users.some((user) => user._id === userId);
+      });
 
-      // If chats are allready exist
-      if (!chats.find((c) => c._id === data._id)) {
-        setChats([data, ...chats]);
+      if (existingChat) {
+        setSelectedChat(existingChat);
+        setLoadingChat(false);
+        onClose();
+        return;
       }
+
+      // If there's no existing chat, create a new one
+      const { data } = await axios.post("/api/chat", { userId }, config);
+      setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
@@ -110,6 +119,26 @@ const SideDrawer = () => {
         position: "bottom-left",
       });
     }
+
+    //   const { data } = await axios.post("/api/chat", { userId }, config);
+
+    //   // If chats are allready exist
+    //   if (!chats.find((c) => c._id === data._id)) {
+    //     setChats([data, ...chats]);
+    //   }
+    //   setSelectedChat(data);
+    //   setLoadingChat(false);
+    //   onClose();
+    // } catch (error) {
+    //   toast({
+    //     title: "Error fetching the chat",
+    //     description: error.message,
+    //     status: "error",
+    //     duration: 5000,
+    //     isClosable: true,
+    //     position: "bottom-left",
+    //   });
+    // }
   };
 
   return (

@@ -12,7 +12,7 @@ const MyChat = ({ fetchAgain }) => {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const toast = useToast();
 
-  const fetchChats = async (userId) => {
+  const fetchChats = async () => {
     try {
       const config = {
         headers: {
