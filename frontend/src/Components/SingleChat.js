@@ -15,6 +15,8 @@ import { getSender, getSenderDetails } from "../config/ChatLogics";
 import ProfileModal from "./misc/ProfileModal";
 import UpdateGroupChatModal from "./misc/UpdateGroupChatModal";
 import axios from "axios";
+import "./styles.css";
+import ScrollableChat from "./ScrollableChat";
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [newMessage, setNewMessage] = useState();
@@ -151,6 +153,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <UpdateGroupChatModal
                   fetchAgain={fetchAgain}
                   setFetchAgain={setFetchAgain}
+                  fetchChatHistory={fetchChatHistory}
                 />
               </>
             )}
@@ -175,43 +178,46 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin="auto"
               ></Spinner>
             ) : (
-              messages.map((message, index) => (
-                <Box
-                  display="flex"
-                  key={index}
-                  color="#FFF"
-                  borderRadius="md"
-                  maxWidth="70%"
-                  alignItems="center"
-                  alignSelf={
-                    message.sender._id === user._id ? "flex-end" : "flex-start"
-                  }
-                  p={2}
-                  my={1}
-                >
-                  {message.sender._id !== user._id && (
-                    <Avatar size="sm" name={message.sender.name} mr={2} />
-                  )}
-                  <Box>
-                    <Text fontSize="xs" color="black" mr={1}>
-                      {formatTime(message.createdAt)}
-                    </Text>
-                    <Text
-                      bg={
-                        message.sender._id === user._id ? "#69D2E7" : "#F38630"
-                      }
-                      padding="5px"
-                      borderRadius={
-                        message.sender._id === user._id
-                          ? "10px 10px 0 10px"
-                          : "0 10px 10px 10px"
-                      }
-                    >
-                      {message.content}
-                    </Text>
-                  </Box>
-                </Box>
-              ))
+              // messages.map((message, index) => (
+              //   <Box
+              //     display="flex"
+              //     key={index}
+              //     color="#FFF"
+              //     borderRadius="md"
+              //     maxWidth="70%"
+              //     alignItems="center"
+              //     alignSelf={
+              //       message.sender._id === user._id ? "flex-end" : "flex-start"
+              //     }
+              //     p={2}
+              //     my={1}
+              //   >
+              //     {message.sender._id !== user._id && (
+              //       <Avatar size="sm" name={message.sender.name} mr={2} />
+              //     )}
+              //     <Box>
+              //       <Text fontSize="xs" color="black" mr={1}>
+              //         {formatTime(message.createdAt)}
+              //       </Text>
+              //       <Text
+              //         bg={
+              //           message.sender._id === user._id ? "#69D2E7" : "#F38630"
+              //         }
+              //         padding="5px"
+              //         borderRadius={
+              //           message.sender._id === user._id
+              //             ? "10px 10px 0 10px"
+              //             : "0 10px 10px 10px"
+              //         }
+              //       >
+              //         {message.content}
+              //       </Text>
+              //     </Box>
+              //   </Box>
+              // ))
+              <div className="messages">
+                <ScrollableChat messages={messages} />
+              </div>
             )}
 
             <FormControl
