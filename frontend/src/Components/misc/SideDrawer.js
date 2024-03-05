@@ -1,4 +1,3 @@
-
 import {
   Avatar,
   Box,
@@ -32,7 +31,7 @@ import { getSender } from "../../config/ChatLogics";
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
 
-const SideDrawerTemp = () => {
+const SideDrawer = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -153,7 +152,7 @@ const SideDrawerTemp = () => {
         </Tooltip>
 
         <Text fontSize="2xl" fontFamily="Work sans">
-        Chatit
+          Chatit
         </Text>
         <div>
           <Menu>
@@ -234,5 +233,4 @@ const SideDrawerTemp = () => {
   );
 };
 
-export default SideDrawerTemp;
-
+export default SideDrawer;
