@@ -1,3 +1,4 @@
+
 import {
   Avatar,
   Box,
@@ -27,15 +28,25 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserContainer/UserListItem";
+import { getSender } from "../../config/ChatLogics";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
 
-const SideDrawer = () => {
+const SideDrawerTemp = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const {
+    user,
+    setSelectedChat,
+    chats,
+    setChats,
+    notification,
+    setNotification,
+  } = ChatState();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -119,26 +130,6 @@ const SideDrawer = () => {
         position: "bottom-left",
       });
     }
-
-    //   const { data } = await axios.post("/api/chat", { userId }, config);
-
-    //   // If chats are allready exist
-    //   if (!chats.find((c) => c._id === data._id)) {
-    //     setChats([data, ...chats]);
-    //   }
-    //   setSelectedChat(data);
-    //   setLoadingChat(false);
-    //   onClose();
-    // } catch (error) {
-    //   toast({
-    //     title: "Error fetching the chat",
-    //     description: error.message,
-    //     status: "error",
-    //     duration: 5000,
-    //     isClosable: true,
-    //     position: "bottom-left",
-    //   });
-    // }
   };
 
   return (
@@ -162,14 +153,33 @@ const SideDrawer = () => {
         </Tooltip>
 
         <Text fontSize="2xl" fontFamily="Work sans">
-          Talk-A-Tive
+        Chatit
         </Text>
         <div>
           <Menu>
             <MenuButton p={1}>
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
-            {/* <MenuList></MenuList> */}
+            <MenuList pl={2}>
+              {!notification.length && "No New Messages"}
+              {notification.map((notif) => (
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
+                  }}
+                >
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -224,4 +234,5 @@ const SideDrawer = () => {
   );
 };
 
-export default SideDrawer;
+export default SideDrawerTemp;
+

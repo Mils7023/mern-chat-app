@@ -1,5 +1,5 @@
 {
-  "name": "talk-a-tive",
+  "name": "chatit",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -16,6 +16,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^6.3.0",
     "mongoose": "^7.2.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "socket.io": "^4.7.4"
   }
 }
